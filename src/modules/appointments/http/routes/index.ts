@@ -7,5 +7,6 @@ const AppointmentsRoutes = express.Router();
 const Controller = new appointmentController();
 
 AppointmentsRoutes.post('/appointments',Controller.create);
+AppointmentsRoutes.get('/appointments',Controller.findAll);
 
 export default AppointmentsRoutes;

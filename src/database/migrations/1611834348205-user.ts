@@ -1,12 +1,12 @@
 import {MigrationInterface, QueryRunner,Table} from "typeorm";
 
-export class createAppointment1611690295462 implements MigrationInterface {
+export class user1611834348205 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'appointments',
-                columns: [
+                name: 'users',
+                columns:[
                     {
                         name: 'id',
                         type: 'uuid',
@@ -15,29 +15,29 @@ export class createAppointment1611690295462 implements MigrationInterface {
                         default: 'uuid_generate_v4()'
                     },
                     {
-                        name: 'date',
-                        type: 'timestamp with time zone',
-                        isNullable: false,
+                        name: 'name',
+                        type: 'varchar',
                     },
                     {
-                        name: 'provider',
+                        name: 'email',
+                        type: 'varchar',
+                        isNullable: false,
+                        isUnique: true,
+                    },
+                    {
+                        name: 'password',
                         type: 'varchar',
                         isNullable: false,
                     },
                     {
-                        name:'created_at',
-                        type: 'time',
+                        name: 'created_at',
+                        type: 'timestamp',
                         default: 'now()',
                     },
                     {
                         name: 'update_at',
-                        type: 'time',
+                        type: 'timestamp',
                         default: 'now()',
-                    },
-                    {
-                        name: 'provider_id',
-                        type: 'uuid',
-                        isNullable: true,
                     }
                 ]
             })
@@ -46,7 +46,7 @@ export class createAppointment1611690295462 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('appointments');
+        await queryRunner.dropTable('users');
     }
 
 }
