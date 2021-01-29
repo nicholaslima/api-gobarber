@@ -1,6 +1,6 @@
 
 import { getRepository } from 'typeorm';
-
+import { hash } from 'bcryptjs';
 import createUSerDTO from '@modules/users/dto/createUSerDTO';
 import User from '../infra/typeorm/entities/User';
 
@@ -14,9 +14,13 @@ class CreateUSerService{
        if(userExist){
             throw new Error('this email already exist');
        }
+
+       const passwordHashed = await hash(password,8);
       
        const user = await Repository.create({
-            name,password,email 
+            name,
+            password: passwordHashed,
+            email 
        });
        
       const response =  await Repository.save(user);
