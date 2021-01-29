@@ -5,7 +5,7 @@ import createAppointmentServiceDTO from '../dtos/createAppointmentServiceDTO';
 import Appointment from '../infra/typeorm/entities/Appointment';
 
 class CreateAppointmentService{
-    public async execute({ date, provider }:createAppointmentServiceDTO): Promise<Appointment>{
+    public async execute({ date, provider_id }:createAppointmentServiceDTO): Promise<Appointment>{
         
         const repository = getCustomRepository(AppointmentRepository);
 
@@ -17,7 +17,7 @@ class CreateAppointmentService{
 
         const appointment = await repository.create({
             date,
-            provider
+            provider_id
         });
 
         const response = await repository.save(appointment);

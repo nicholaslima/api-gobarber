@@ -20,18 +20,13 @@ export class createAppointment1611690295462 implements MigrationInterface {
                         isNullable: false,
                     },
                     {
-                        name: 'provider',
-                        type: 'varchar',
-                        isNullable: false,
-                    },
-                    {
                         name:'created_at',
-                        type: 'time',
+                        type: 'timestamp',
                         default: 'now()',
                     },
                     {
                         name: 'update_at',
-                        type: 'time',
+                        type: 'timestamp',
                         default: 'now()',
                     },
                     {

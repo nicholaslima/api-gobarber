@@ -9,7 +9,7 @@ import CreateService from '@modules/appointments/service/createAppointmentServic
 export default class AppointmentControler{
 
     public async create(request: Request,response: Response){
-        const { date,provider } = request.body;
+        const { date,provider_id } = request.body;
 
         const parsedDate = parseISO(date);
 
@@ -17,7 +17,7 @@ export default class AppointmentControler{
 
         const Appointment = await service.execute({
            date: parsedDate,
-           provider
+           provider_id
         });
 
         return response.json(Appointment);
@@ -26,7 +26,7 @@ export default class AppointmentControler{
     public async findAll(request: Request,response: Response){
         const repository = getCustomRepository(Repository);
         const appointments = await repository.find();
-        console.log(appointments);
+
         return response.json(appointments);
     }
 

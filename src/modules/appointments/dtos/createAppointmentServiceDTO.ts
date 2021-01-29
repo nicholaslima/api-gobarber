@@ -2,5 +2,5 @@
 
 export default interface createAppointmentServiceDTO{
     date: Date;
-    provider: string;
+    provider_id: string;
 }
