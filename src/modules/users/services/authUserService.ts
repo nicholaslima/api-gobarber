@@ -35,6 +35,7 @@ class AuthUserService{
         const { expiresIn,secret } = Jwt;
 
         const token = sign({},secret,{ 
+            subject: user.id,
             expiresIn
         })
 

@@ -25,6 +25,8 @@ export default class AppointmentControler{
 
     public async findAll(request: Request,response: Response){
         const repository = getCustomRepository(Repository);
+        console.log(request.user);
+        
         const appointments = await repository.find();
 
         return response.json(appointments);
