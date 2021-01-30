@@ -6,7 +6,7 @@ import appointmentController from '../controllers';
 const AppointmentsRoutes = express.Router();
 const Controller = new appointmentController();
 
-AppointmentsRoutes.post('/appointments',Controller.create);
-AppointmentsRoutes.get('/appointments',Controller.findAll);
+AppointmentsRoutes.post('/',Controller.create);
+AppointmentsRoutes.get('/',Controller.findAll);
 
 export default AppointmentsRoutes;

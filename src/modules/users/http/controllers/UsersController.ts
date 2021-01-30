@@ -11,8 +11,17 @@ class userController{
 
         const user = await service.execute({name,email,password});
 
-        return response.json(user);
+        const userWithoutPassword = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            created_at: user.created_at,
+            update_at: user.update_at,
+       };
+
+        return response.json(userWithoutPassword);
     }
+
 }
 
 
