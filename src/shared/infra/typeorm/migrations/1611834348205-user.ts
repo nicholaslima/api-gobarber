@@ -38,6 +38,11 @@ export class user1611834348205 implements MigrationInterface {
                         name: 'update_at',
                         type: 'timestamp',
                         default: 'now()',
+                    },
+                    {
+                        name: 'avatar',
+                        type: 'varchar',
+                        isNullable: true,
                     }
                 ]
             })
