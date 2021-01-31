@@ -9,9 +9,11 @@ import sessionRoutes from '@modules/users/http/routes/sessions.routes';
 const routes = express.Router();
 
 
+
 routes.use('/appointments',AppointmentRoutes);
 routes.use('/users',UserRoutes);
-routes.use('/sessions',sessionRoutes);
+routes.use('/session',sessionRoutes);
+
 
 export default routes;
 

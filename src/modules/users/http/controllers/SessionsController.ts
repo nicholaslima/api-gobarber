@@ -1,19 +1,19 @@
 
-import { Request,Response } from 'express';
+import { Request,Response,NextFunction } from 'express';
 import UserAuthService from '../../services/authUserService';
 
 
 class SessionsController{
 
-    public async auth(request: Request, response: Response){
+    public async auth(request: Request, response: Response,next: NextFunction){
 
         const { password,email } = request.body;
 
         const service =  new UserAuthService();
 
-        const {user,token} = await service.execute({email,password});
+        const { user,token } = await service.execute({email,password});
 
-        const userWithoutEmail = {
+        const userWithoutPassword = {
             id: user.id,
             name: user.name,
             email: user.email,
@@ -22,7 +22,7 @@ class SessionsController{
         }
 
         return response.json({
-            userWithoutEmail,
+            userWithoutPassword,
             token,
         });
     }

@@ -2,6 +2,7 @@
 import AuthUSerDTO from '../dto/authUserDTO';
 import { getCustomRepository} from 'typeorm';
 import Reposiory from '../infra/typeorm/repository/UserRepository';
+import AppError from '@shared/errors/AppError';
 
 import Jwt from '../config/jwt';
 
@@ -23,13 +24,13 @@ class AuthUserService{
         const user = await repository.findByEmail(email);
 
         if(!user){
-            throw new Error('incorrect email or password combination');
+            throw new AppError('incorrect email or password combination');
         }
 
         const validPassword = await compare(password,user.password);
 
         if(!validPassword){
-            throw new Error('incorrect email or password combination');
+            throw new AppError('incorrect email or password combination');
         }
 
         const { expiresIn,secret } = Jwt;

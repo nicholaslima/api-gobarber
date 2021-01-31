@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 import createUSerDTO from '@modules/users/dto/createUSerDTO';
 import User from '../infra/typeorm/entities/User';
+import AppError from '@shared/errors/AppError';
 
 class CreateUSerService{
     public async execute({ name,password,email }: createUSerDTO): Promise<User>{
@@ -12,7 +13,7 @@ class CreateUSerService{
        const userExist = await Repository.findOne({ where: { email }});
 
        if(userExist){
-            throw new Error('this email already exist');
+            throw new AppError('this email already exist');
        }
 
        const passwordHashed = await hash(password,8);

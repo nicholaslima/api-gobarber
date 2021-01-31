@@ -3,6 +3,7 @@
 import express,{ Response,Request,NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 import Jwt from '@modules/users/config/jwt';
+import AppError from '@shared/errors/AppError';
 
 const routes = express.Router();
 
@@ -14,9 +15,9 @@ interface TokenPayload {
 
 routes.use((request:Request,response:Response,next:NextFunction) => {
     const tokenBearer = request.headers.authorization;
-
+    console.log(tokenBearer);
     if(!tokenBearer){
-        throw new Error('token is missing');
+        throw new AppError('token is missing');
     }
 
     const [,token] = tokenBearer.split(' ');
@@ -32,7 +33,7 @@ routes.use((request:Request,response:Response,next:NextFunction) => {
         }
        return next();
     }catch(err){
-        throw new Error('invalid jwt token');
+        throw new AppError('invalid jwt token');
     }
 });
 

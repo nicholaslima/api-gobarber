@@ -8,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { getCustomRepository } from 'typeorm';
-
+import AppError from '@shared/errors/AppError';
 
 class UploadAvatarService{
 
@@ -20,7 +20,7 @@ class UploadAvatarService{
         });
 
         if(!user){
-            throw new Error('usuario não existe');
+            throw new AppError('usuario não existe');
         }
 
         if(user.avatar){

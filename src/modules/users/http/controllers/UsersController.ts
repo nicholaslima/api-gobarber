@@ -30,12 +30,21 @@ class userController{
 
         const service = new UploadAvatarService();
 
-       const user = await service.execute({ 
+        const user = await service.execute({ 
            filename,
            userID: id 
         });
 
-        return response.json(user);
+        const userWithoutPassword = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            avatar: user.avatar,
+            created_at: user.created_at,
+            update_at: user.update_at,
+       };
+
+        return response.json(userWithoutPassword);
     }
 
 }

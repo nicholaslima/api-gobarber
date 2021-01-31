@@ -3,6 +3,8 @@ import { getCustomRepository } from 'typeorm';
 import AppointmentRepository from '../infra/typeorm/repository';
 import createAppointmentServiceDTO from '../dtos/createAppointmentServiceDTO';
 import Appointment from '../infra/typeorm/entities/Appointment';
+import AppError from '@shared/errors/AppError';
+
 
 class CreateAppointmentService{
     public async execute({ date, provider_id }:createAppointmentServiceDTO): Promise<Appointment>{
@@ -12,7 +14,7 @@ class CreateAppointmentService{
        const appointmentExist = await repository.findByDate(date);
 
         if(appointmentExist){
-            throw new Error('this appointment already booked');
+            throw new AppError('this appointment already booked');
         }
 
         const appointment = await repository.create({
