@@ -1,7 +1,8 @@
 
 import { Response,Request } from 'express';
-import createUserService from '../../services/createUserService';
-import UploadAvatarService from '../../services/uploadAvatarService';
+import createUserService from '@modules/users/services/createUserService';
+import UploadAvatarService from '@modules/users/services/uploadAvatarService';
+import { container } from 'tsyringe';
 
 class userController{
 
@@ -9,9 +10,9 @@ class userController{
 
         const { name,email,password } = request.body;
 
-        const service = new createUserService();
+        const createUser = container.resolve(createUserService);
 
-        const user = await service.execute({name,email,password});
+        const user = await createUser.execute({ name,email,password });
 
         const userWithoutPassword = {
             id: user.id,
@@ -28,9 +29,9 @@ class userController{
         const { filename } = request.file;
         const { id  } = request.user;
 
-        const service = new UploadAvatarService();
+        const updateAvatar = container.resolve(UploadAvatarService);
 
-        const user = await service.execute({ 
+        const user = await updateAvatar.execute({ 
            filename,
            userID: id 
         });

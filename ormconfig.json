@@ -8,8 +8,7 @@
     "password": "docker",
     "port": 5432,
     "entities": [
-        "./src/modules/appointments/infra/typeorm/entities/*.ts",
-        "./src/modules/users/infra/typeorm/entities/*.ts"
+        "./src/modules/**/infra/typeorm/entities/*.ts"
     ],
     "migrations": [
         "./src/shared/infra/typeorm/migrations/*.ts"

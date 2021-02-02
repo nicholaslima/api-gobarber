@@ -5,7 +5,7 @@ const userRoutes = express.Router();
 import UserController from '../controllers/UsersController';
 import MiddlewareToken from '@shared/infra/http/middlewares/MiddlewareToken';
 import multer from 'multer';
-import multerConfig from '../../config/upload';
+import multerConfig from '@modules/users/config/upload';
 
 
 const users = new UserController();

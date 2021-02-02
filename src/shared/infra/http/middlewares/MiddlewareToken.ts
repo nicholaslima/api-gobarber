@@ -15,7 +15,7 @@ interface TokenPayload {
 
 routes.use((request:Request,response:Response,next:NextFunction) => {
     const tokenBearer = request.headers.authorization;
-    console.log(tokenBearer);
+
     if(!tokenBearer){
         throw new AppError('token is missing');
     }

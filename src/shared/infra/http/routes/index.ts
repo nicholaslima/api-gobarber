@@ -1,9 +1,9 @@
 
 
 import express from 'express';
-import AppointmentRoutes from '@modules/appointments/http/routes/appointment.routes';
-import UserRoutes from '@modules/users/http/routes/user.routes';
-import sessionRoutes from '@modules/users/http/routes/sessions.routes';
+import AppointmentRoutes from '@modules/appointments/infra/http/routes/appointment.routes';
+import UserRoutes from '@modules/users/infra/http/routes/user.routes';
+import sessionRoutes from '@modules/users/infra/http/routes/sessions.routes';
 
 
 const routes = express.Router();

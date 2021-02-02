@@ -1,7 +1,7 @@
 
 
 import express from 'express';
-import appointmentController from '../controllers';
+import appointmentController from '../controllers/AppointmentControler';
 import MiddlewareToken from '@shared/infra/http/middlewares/MiddlewareToken';
 
 const AppointmentsRoutes = express.Router();

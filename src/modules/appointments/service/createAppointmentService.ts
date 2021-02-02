@@ -1,30 +1,33 @@
 
-import { getCustomRepository } from 'typeorm';
-import AppointmentRepository from '../infra/typeorm/repository';
+
+
 import createAppointmentServiceDTO from '../dtos/createAppointmentServiceDTO';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import AppError from '@shared/errors/AppError';
+import IAppointment from '@modules/appointments/repositories/IAppointmentRepository';
+import { inject, injectable } from 'tsyringe';
 
-
+@injectable()
 class CreateAppointmentService{
-    public async execute({ date, provider_id }:createAppointmentServiceDTO): Promise<Appointment>{
-        
-        const repository = getCustomRepository(AppointmentRepository);
 
-       const appointmentExist = await repository.findByDate(date);
+    constructor(
+        @inject('AppointmentRepository')
+        private appointmentRepository: IAppointment
+    ){}
+
+
+    public async execute({ date, provider_id }:createAppointmentServiceDTO): Promise<Appointment>{
+        const appointmentExist = await this.appointmentRepository.findByDate(date);
 
         if(appointmentExist){
             throw new AppError('this appointment already booked');
         }
 
-        const appointment = await repository.create({
-            date,
-            provider_id
+        const appointment = await this.appointmentRepository.create({
+            provider_id,
+            date
         });
-
-        const response = await repository.save(appointment);
-
-        return response;
+        return appointment;
     }
 
 }

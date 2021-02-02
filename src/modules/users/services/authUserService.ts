@@ -1,9 +1,9 @@
 
 import AuthUSerDTO from '../dto/authUserDTO';
-import { getCustomRepository} from 'typeorm';
-import Reposiory from '../infra/typeorm/repository/UserRepository';
-import AppError from '@shared/errors/AppError';
+import IUserRepository from '@modules/users/repositories/IUsersRepositories';
 
+import AppError from '@shared/errors/AppError';
+import { inject,injectable } from 'tsyringe';
 import Jwt from '../config/jwt';
 
 import { sign } from 'jsonwebtoken';
@@ -17,11 +17,16 @@ interface ResponseType{
     user: User;
 }
 
+@injectable()
 class AuthUserService{
-    public async execute({ email,password }:AuthUSerDTO): Promise<ResponseType>{
 
-        const repository =  getCustomRepository(Reposiory);
-        const user = await repository.findByEmail(email);
+    constructor(
+        @inject('UsersRepository')
+        private ormReposiory: IUserRepository
+    ){}
+    
+    public async execute({ email,password }:AuthUSerDTO): Promise<ResponseType>{
+        const user = await this.ormReposiory.findByEmail(email);
 
         if(!user){
             throw new AppError('incorrect email or password combination');

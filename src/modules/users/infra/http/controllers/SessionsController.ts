@@ -1,18 +1,17 @@
 
 import { Request,Response,NextFunction } from 'express';
-import UserAuthService from '../../services/authUserService';
-
+import UserAuthService from '@modules/users/services/authUserService';
+import { container } from 'tsyringe';
 
 class SessionsController{
 
     public async auth(request: Request, response: Response,next: NextFunction){
+        const userAuthService = container.resolve(UserAuthService);
 
         const { password,email } = request.body;
 
-        const service =  new UserAuthService();
-
-        const { user,token } = await service.execute({email,password});
-
+        const { user,token } = await userAuthService.execute({email,password});
+        
         const userWithoutPassword = {
             id: user.id,
             name: user.name,

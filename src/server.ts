@@ -6,6 +6,7 @@ import '@shared/infra/typeorm/index';
 import routes from '@shared/infra/http/routes';
 import uploadAvatarConfig from '@modules/users/config/upload';
 import AppError from '@shared/errors/AppError';
+import "@shared/container";
 
 const App = express();
 
@@ -22,7 +23,7 @@ routes.use((error: Error,request: Request,response: Response,next: NextFunction)
     }
 
     return response.status(500).json({
-        message: 'internal Error',
+        message: error.message,
         status: 500,
     })
 })
