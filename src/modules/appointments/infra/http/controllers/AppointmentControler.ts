@@ -2,7 +2,7 @@
 import { Request,Response } from 'express';
 import { parseISO } from 'date-fns';
 import AppointmentRepository from '@modules/appointments/infra/typeorm/repository/AppointmentsRepository';
-import CreateAppointmentService from '@modules/appointments/service/createAppointmentService';
+import CreateAppointmentService from '@modules/appointments/services/createAppointmentService';
 import { container } from 'tsyringe';
 
 export default class AppointmentControler{
