@@ -15,7 +15,6 @@ describe('create Appointment',() => {
        const provider_id = '123456';
 
        const appointment = await service.execute({date,provider_id});
-       console.log(appointment);
        
        expect(appointment).toHaveProperty('id');
        expect(appointment.provider_id).toBe('123456');
