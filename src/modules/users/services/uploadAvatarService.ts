@@ -2,11 +2,10 @@
 
 import UploadAvatarDTO from '../dto/uploadAvatarDTO';
 
-import uploadConfig from '../config/upload';
 import IUsersRepository from '@modules/users/repositories/IUsersRepositories';
+import IStorageProvider from '@shared/container/providers/StorageProvider/model/IStorageProvider';
 import User from '../infra/typeorm/entities/User';
-import fs from 'fs';
-import path from 'path';
+
 import { inject,injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
@@ -16,7 +15,9 @@ class UploadAvatarService{
 
     constructor(
         @inject('UsersRepository')
-        private ormRepository :IUsersRepository
+        private ormRepository :IUsersRepository,
+        @inject('uploadProvider')
+        private StorageProvider:IStorageProvider
     ){}
 
     public async execute({ filename,userID }: UploadAvatarDTO):Promise<User>{
@@ -28,16 +29,11 @@ class UploadAvatarService{
         }
 
         if(user.avatar){
-           const pathFile =  path.join(uploadConfig.directory,user.avatar);
-           const FileExist = await fs.promises.stat(pathFile);
-           
-           if(FileExist){
-               await fs.promises.unlink(pathFile);
-           }
+           await this.StorageProvider.deleteFile(user.avatar);
         }
 
         user.avatar = filename;
-
+        await this.StorageProvider.saveFile(filename);
         await this.ormRepository.update(user);
         return user;
     }

@@ -1,6 +1,6 @@
 
 
-import { hash } from 'bcryptjs';
+
 import createUSerDTO from '@modules/users/dto/createUSerDTO';
 import User from '../infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';

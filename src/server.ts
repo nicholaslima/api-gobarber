@@ -4,14 +4,15 @@ import 'express-async-errors';
 import express,{Request,Response,NextFunction} from 'express';
 import '@shared/infra/typeorm/index';
 import routes from '@shared/infra/http/routes';
-import uploadAvatarConfig from '@modules/users/config/upload';
+import uploadAvatarConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import "@shared/container";
 
 const App = express();
 
 App.use(express.json());
-App.use('/file',express.static(uploadAvatarConfig.directory));
+//rota para mostrar imagens do sistema
+App.use('/file',express.static(uploadAvatarConfig.tmpFolder));
 App.use(routes);
 
 routes.use((error: Error,request: Request,response: Response,next: NextFunction) => {
