@@ -36,7 +36,7 @@ describe('upload avatar test',() => {
 
         const uploadAvatar = new UploadAvatarService(fakeUsersRepository,fakeDiskStorageProvider);
 
-        expect(
+        await expect(
             uploadAvatar.execute({
                 filename: 'imagem1.jpg',
                 userID: 'id',
