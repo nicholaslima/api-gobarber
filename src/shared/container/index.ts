@@ -6,11 +6,15 @@ import IAppointmentRepository from "@modules/appointments/repositories/IAppointm
 
 
 import '@modules/users/providers/Hashprovider';
-import './providers/StorageProvider';
-import './providers/sendResetEmail';
+
+import './providers';
 
 import UsersRepository from '@modules/users/infra/typeorm/repository/UserRepository';
 import IUsersRepository from "modules/users/repositories/IUsersRepositories";
 
+import UsersTokenRepository from '@modules/users/infra/typeorm/repository/userTokenRepository';
+import IUsersTokenRepository from '@modules/users/repositories/IUsersTokenRepositories';
+
 container.registerSingleton<IAppointmentRepository>('AppointmentRepository',AppointmentRepository);
 container.registerSingleton<IUsersRepository>('UsersRepository',UsersRepository);
+container.registerSingleton<IUsersTokenRepository>('UsersTokenRepository',UsersTokenRepository);

@@ -16,7 +16,8 @@ class UploadAvatarService{
     constructor(
         @inject('UsersRepository')
         private ormRepository :IUsersRepository,
-        @inject('uploadProvider')
+        
+        @inject('UploadProvider')
         private StorageProvider:IStorageProvider
     ){}
 

@@ -1,7 +1,7 @@
 
 
 import { container } from 'tsyringe';
-import sendResetEmailProvider from './implementations/sendResetEmailProvider';
+import EtherealMailProvider from './implementations/EtherealMailProvider';
 import ISendEmailReset from './models/ISendResetEmailProvider';
 
-container.registerSingleton<ISendEmailReset>('sendResetEmailProvider',sendResetEmailProvider);
+container.registerInstance<ISendEmailReset>('SendResetEmailProvider',new EtherealMailProvider());

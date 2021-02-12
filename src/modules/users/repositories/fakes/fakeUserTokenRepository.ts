@@ -4,10 +4,9 @@ import IUserTokenRepositories from '../IUsersTokenRepositories';
 import UserToken from '@modules/users/infra/typeorm/entities/TokenResetMail';
 import { v4 } from 'uuid';
 
-
 class FakeUserTokenRepositories implements IUserTokenRepositories{
 
-        private user_token: UserToken[] = [];
+        private users_token: UserToken[] = [];
 
         public async  generateToken(user_id: string): Promise<UserToken>{
 
@@ -18,13 +17,23 @@ class FakeUserTokenRepositories implements IUserTokenRepositories{
             Object.assign(userToken,{ 
                 id,
                 user_id,
-                token 
+                token,
+                created_at: new Date(),
+                updated_at: new Date(), 
             });
 
-            this.user_token.push(userToken);
+            this.users_token.push(userToken);
 
             return userToken
         }
+
+        public async findUser(token: string): Promise<UserToken | undefined>{
+            const user = this.users_token.find( user_token => user_token.token === token);
+
+            return user || undefined;
+        }
+
+
 
 }
 

@@ -25,7 +25,8 @@ class AuthUserService{
     constructor(
         @inject('UsersRepository')
         private ormReposiory: IUserRepository,
-        @inject('hashProvider')
+        
+        @inject('HashProvider')
         private HashProvider: IHashProvider
     ){}
     

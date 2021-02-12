@@ -16,9 +16,11 @@ class SendResetEmailService{
     constructor(
         @inject('UsersRepository')
         private USersRepository: IUSersRepository,
-        @inject('sendResetEmailProvider')
+        
+        @inject('SendResetEmailProvider')
         private sendEmailResetProvider: IsendResetEmailPovider,
-        @inject('usersTokenRepository')
+
+        @inject('UsersTokenRepository')
         private UsersTokenRepository: IUsersTokenRepository,
     ){}
 
@@ -30,11 +32,11 @@ class SendResetEmailService{
             throw new AppError('this user not exist');
         }
 
-        await this.UsersTokenRepository.generateToken(userFound.id);
+        const { token } = await this.UsersTokenRepository.generateToken(userFound.id);
 
         await this.sendEmailResetProvider.sendEmail(
             email,
-            'confirma sua recuperação de senha'
+            `confirma sua recuperação de senha ${ token }`
         );
 
     }

@@ -9,7 +9,7 @@ import { Column,
     UpdateDateColumn } from 'typeorm';
 
 
-@Entity('users_token')
+@Entity('usersToken')
 
 class TokenResetMail{
 

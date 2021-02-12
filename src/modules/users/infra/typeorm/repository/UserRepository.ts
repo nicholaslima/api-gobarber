@@ -30,7 +30,6 @@ class UserRepository implements IUsersRepository{
        const user = await this.ormRepository.findOne({ 
             where: { email },
         });
-        console.log(email);
 
         return user || null;
     }
