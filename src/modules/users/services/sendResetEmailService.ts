@@ -4,6 +4,7 @@ import IsendResetEmailPovider from '@shared/container/providers/sendResetEmail/m
 import IUSersRepository from '@modules/users/repositories/IUsersRepositories';
 import AppError from '@shared/errors/AppError';
 import IUsersTokenRepository from '@modules/users/repositories/IUsersTokenRepositories';
+import path from 'path';
 
 
 interface sendResetEmailType{
@@ -34,13 +35,26 @@ class SendResetEmailService{
 
         const { token } = await this.UsersTokenRepository.generateToken(userFound.id);
 
-        await this.sendEmailResetProvider.sendEmail(
-            email,
-            `confirma sua recuperação de senha ${ token }`
-        );
+        const pathTemplate = path.resolve(__dirname,'..','views','templateMail.hbs');
+        
 
+        await this.sendEmailResetProvider.sendEmail({
+            to: {
+                name: userFound.name,
+                email: userFound.email,
+            },
+            subject: '[Gobarber] Recuperação de senha',
+            templateData:{
+                variables:{
+                    name: userFound.name,
+                    link:`http://localhost:3000/reset_password?token=${ token }`,
+                },
+                file: pathTemplate,
+            },
+        });
+
+        console.log(userFound.name);
     }
-
 }
 
 

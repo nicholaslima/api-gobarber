@@ -1,6 +1,7 @@
+import ISendMailDTO from '../dtos/ISendMailDTO';
 
 interface IsendResetEmail{
-    sendEmail(to: string,body: string): Promise<void>;
+    sendEmail(data : ISendMailDTO): Promise<void>;
 }
 
 export default IsendResetEmail;

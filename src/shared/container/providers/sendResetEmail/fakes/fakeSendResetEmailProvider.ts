@@ -1,19 +1,15 @@
 
 import ISendResetEmailProvider from '../models/ISendResetEmailProvider';
+import ISendMailDTO from '../dtos/ISendMailDTO';
 
 
-interface EmailType{
-    to: string;
-    body: string;
-}
 class FakeSendResetEmail implements ISendResetEmailProvider{
 
-    private emails: EmailType[] = [];
+    private emails: ISendMailDTO[] = [];
 
-    public async sendEmail(to: string,body: string){
-        const email = { to,body };
-        this.emails.push(email);
+    public async sendEmail(message: ISendMailDTO){
 
+        this.emails.push(message);
     }
 }
 

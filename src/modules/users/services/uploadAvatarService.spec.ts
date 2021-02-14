@@ -5,14 +5,18 @@ import FakeUsersRepository from '@modules/users/repositories/fakes/fakeUserRepos
 import FakeDiskStorageProvider from '@shared/container/providers/StorageProvider/fake/fakeDiskStorageProvider';
 import AppError from '@shared/errors/AppError';
 
+let fakeUsersRepository: FakeUsersRepository;
+let fakeDiskStorageProvider: FakeDiskStorageProvider;
+let uploadAvatar: UploadAvatarService;
+
 describe('upload avatar test',() => {
+    beforeEach(() => {
+        fakeUsersRepository = new FakeUsersRepository();
+        fakeDiskStorageProvider = new FakeDiskStorageProvider();
+
+        uploadAvatar = new UploadAvatarService(fakeUsersRepository,fakeDiskStorageProvider);
+    })
     it('should be able to upload avatar',async () => {
-
-        const fakeUsersRepository = new FakeUsersRepository();
-        const fakeDiskStorageProvider = new FakeDiskStorageProvider();
-
-
-        const uploadAvatar = new UploadAvatarService(fakeUsersRepository,fakeDiskStorageProvider);
 
         const user = await fakeUsersRepository.register({
             name: "nicholas",
@@ -29,13 +33,6 @@ describe('upload avatar test',() => {
     });
 
     it('should not be able to upload avatar in user that doesnt exist',async () => {
-
-        const fakeUsersRepository = new FakeUsersRepository();
-        const fakeDiskStorageProvider = new FakeDiskStorageProvider();
-
-
-        const uploadAvatar = new UploadAvatarService(fakeUsersRepository,fakeDiskStorageProvider);
-
         await expect(
             uploadAvatar.execute({
                 filename: 'imagem1.jpg',
@@ -46,13 +43,9 @@ describe('upload avatar test',() => {
 
     it('should be delete old avatar in order to update to new avatar',async () => {
 
-        const fakeUsersRepository = new FakeUsersRepository();
-        const fakeDiskStorageProvider = new FakeDiskStorageProvider();
-
+        
         const deleteFile = jest.spyOn(fakeDiskStorageProvider,'deleteFile');
-
-        const uploadAvatar = new UploadAvatarService(fakeUsersRepository,fakeDiskStorageProvider);
-
+        
         const user = await fakeUsersRepository.register({
             name: 'nicholas',
             email: 'nicholas@amil.com',
@@ -64,7 +57,6 @@ describe('upload avatar test',() => {
             filename: 'avatar.jpg',
         });
 
-       
         await uploadAvatar.execute({
             filename: 'avatar1.jpg',
             userID: user.id,

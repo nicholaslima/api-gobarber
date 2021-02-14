@@ -4,7 +4,7 @@ import { compare,hash } from 'bcryptjs';
 
 
 class HashProvider implements IHashProvider{
-    public  compareHash(value: string,hashed: string): Promise<Boolean>{
+    public async compareHash(value: string,hashed: string): Promise<Boolean>{
         return compare(value,hashed);
     }
 

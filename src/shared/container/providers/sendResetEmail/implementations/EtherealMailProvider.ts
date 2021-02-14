@@ -1,13 +1,19 @@
 
 import ISendEmailResetProvider from '../models/ISendResetEmailProvider';
 import nodemailer,{ Transporter } from 'nodemailer';
+import ISendMailDTO from '../dtos/ISendMailDTO';
+import IMailTemplateProvider from '../../MailTemplateProvider/models/IMailTemplateProvider';
+import { inject,injectable } from 'tsyringe';
 
-
+@injectable()
 class sendResetEmail implements ISendEmailResetProvider{
 
     private client: Transporter;
 
-    constructor(){
+    constructor(
+        @inject('MailTemplateProvider')
+        private MailTemplateProvider: IMailTemplateProvider,
+    ){
         nodemailer.createTestAccount().then( account => {
             const transporter = nodemailer.createTransport({ 
                 host: account.smtp.host,
@@ -24,12 +30,18 @@ class sendResetEmail implements ISendEmailResetProvider{
 
     }
 
-    public async sendEmail(to: string,body: string){
+    public async sendEmail({from,to,subject,templateData }: ISendMailDTO){
         const message = await this.client.sendMail({
-             from:'Equipe GoBarber <equipe@goBaber.com>',
-             to,
-             subject: 'Recuperação de senha',
-             text: body
+             from:{
+                 name: from?.name || 'Equipe Gobarber',
+                 address: from?.email || 'equipe@gobarber.com.br'
+             },
+             to: {
+                 name: to.name,
+                 address: to.email,
+             },
+             subject,
+             html: await this.MailTemplateProvider.parse(templateData),
          });
          
          console.log('message sent:',message.messageId);
