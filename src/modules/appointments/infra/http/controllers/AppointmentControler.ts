@@ -3,6 +3,9 @@ import { Request,Response } from 'express';
 import { parseISO } from 'date-fns';
 import AppointmentRepository from '@modules/appointments/infra/typeorm/repository/AppointmentsRepository';
 import CreateAppointmentService from '@modules/appointments/services/createAppointmentService';
+
+import listProvidersService from '@modules/appointments/services/listProvidersService';
+
 import { container } from 'tsyringe';
 
 export default class AppointmentControler{
@@ -29,4 +32,13 @@ export default class AppointmentControler{
         return response.json(appointments);
     }
 
-}
+    public async listProviders(request:Request,response:Response){
+        const { id } = request.user;    
+
+        const listProviders = container.resolve(listProvidersService);
+
+        const providers =  await listProviders.execute({ expect_user_Id: id });
+
+        return response.status(200).json(providers);
+    }
+}       

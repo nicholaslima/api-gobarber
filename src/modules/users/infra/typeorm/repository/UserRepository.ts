@@ -1,8 +1,9 @@
 
-import { getRepository,Repository } from 'typeorm';
+import { getRepository,Repository,Not } from 'typeorm';
 import User from '../entities/User';
 import IUsersRepository from '@modules/users/repositories/IUsersRepositories';
 import createUserDto from '@modules/users/dto/createUSerDTO';
+import IfindAllProvidersDTO from '@modules/users/dto/IfindAllProvidersDTO';
 
 class UserRepository implements IUsersRepository{
 
@@ -41,6 +42,22 @@ class UserRepository implements IUsersRepository{
 
         return user || null;
     }
+
+    public async findAllProviders({ expect_user_Id  }:IfindAllProvidersDTO): Promise<User[]>{
+        let users: User[] = [];
+
+        if(expect_user_Id){
+           users =  await this.ormRepository.find({
+                        where:{ 
+                            id: Not(expect_user_Id)
+                        }
+                    });
+        }else{
+            users = await this.ormRepository.find();
+        };
+       
+        return users;
+    }   
 }
 
 export default UserRepository;
