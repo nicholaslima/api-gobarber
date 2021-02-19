@@ -1,7 +1,7 @@
 
 
 interface IFindAllProvidersDTO{
-    expect_user_Id?: string;
+    except_user_id?: string;
 }
 
 export default IFindAllProvidersDTO;

@@ -32,10 +32,8 @@ describe('list  Providers',() => {
         });
 
         const users = await listProvidersService.execute({
-            expect_user_Id: user.id
+            except_user_id: user.id
         });
-
-        console.log('users',users);
 
         expect(users).toEqual([
             user1,user2

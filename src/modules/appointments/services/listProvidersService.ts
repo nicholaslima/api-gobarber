@@ -14,9 +14,9 @@ class ListProvidersService{
         private UsersRepository: IUsersRepositories,
     ){}
 
-    public async execute({ expect_user_Id  } :IfindAllProvidersDTO): Promise<User[]> {
+    public async execute({ except_user_id  } :IfindAllProvidersDTO): Promise<User[]> {
         
-       const users = await this.UsersRepository.findAllProviders({expect_user_Id});
+       const users = await this.UsersRepository.findAllProviders({except_user_id});
 
        return users;    
     }

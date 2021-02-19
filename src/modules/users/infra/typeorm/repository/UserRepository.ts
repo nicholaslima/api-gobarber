@@ -43,13 +43,13 @@ class UserRepository implements IUsersRepository{
         return user || null;
     }
 
-    public async findAllProviders({ expect_user_Id  }:IfindAllProvidersDTO): Promise<User[]>{
+    public async findAllProviders({ except_user_id  }:IfindAllProvidersDTO): Promise<User[]>{
         let users: User[] = [];
 
-        if(expect_user_Id){
+        if(except_user_id){
            users =  await this.ormRepository.find({
                         where:{ 
-                            id: Not(expect_user_Id)
+                            id: Not(except_user_id)
                         }
                     });
         }else{

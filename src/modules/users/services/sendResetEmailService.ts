@@ -52,8 +52,6 @@ class SendResetEmailService{
                 file: pathTemplate,
             },
         });
-
-        console.log(userFound.name);
     }
 }
 
