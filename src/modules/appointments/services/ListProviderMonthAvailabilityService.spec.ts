@@ -26,51 +26,61 @@ describe('ListProviderMonthAvailabilityService',() => {
         await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,1,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,2,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,3,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,4,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,5,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,6,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,7,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,8,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
          await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,9,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
         await fakeAppointmentsRepository.create({
             date: new Date(2014,5,5,10,0,0,0),
             provider_id: user.id,
+            user_id: '123456'
         });
 
         const availability = await listProviderMonthAvailabilityService.execute({

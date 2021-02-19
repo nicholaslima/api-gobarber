@@ -16,7 +16,7 @@ class CreateAppointmentService{
     ){}
 
 
-    public async execute({ date, provider_id }:createAppointmentServiceDTO): Promise<Appointment>{
+    public async execute({ date, provider_id,user_id }:createAppointmentServiceDTO): Promise<Appointment>{
         const appointmentExist = await this.appointmentRepository.findByDate(date);
 
         if(appointmentExist){
@@ -25,7 +25,8 @@ class CreateAppointmentService{
 
         const appointment = await this.appointmentRepository.create({
             provider_id,
-            date
+            date,
+            user_id 
         });
         return appointment;
     }
