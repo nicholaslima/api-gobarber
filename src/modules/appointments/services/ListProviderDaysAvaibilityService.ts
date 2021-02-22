@@ -8,7 +8,7 @@ import { getHours,getDate,isAfter  } from 'date-fns';
 type responseType = Array<{
     available: boolean;
     hour: number;
-}>
+}>;
 
 @injectable()
 class ListProviderDaysAvaibilityService{
@@ -22,8 +22,6 @@ class ListProviderDaysAvaibilityService{
     public async execute({ day,year,month,user_id }: ListProviderDaysAvaibilityServiceDTO): Promise<responseType>{
         
         const appointments = await this.AppointmentRepository.findByDayFromProvider({ day,year,month,user_id });
-        
-
         const hourStart = 8;
 
         const hoursAppointment = Array.from({ 
@@ -33,17 +31,19 @@ class ListProviderDaysAvaibilityService{
         const currentDate = new Date(Date.now());
 
         const availability = hoursAppointment.map( hour => {
-            const hasAppointment = appointments.find( 
-                appointment => getHours(appointment.date) === hour
+            const hasAppointment = appointments.find( appointment => { 
+                    return getHours(appointment.date) === hour;
+                }
             );
 
             const compareDate = new Date(year,month - 1,day,hour);
-
+                
             return { 
                 hour,
                 available: !hasAppointment && isAfter(compareDate,currentDate),
             }
         });
+        ;
 
         return availability;
     }

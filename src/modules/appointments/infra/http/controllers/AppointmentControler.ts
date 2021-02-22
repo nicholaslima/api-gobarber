@@ -39,7 +39,7 @@ export default class AppointmentControler{
 
         const listProviders = container.resolve(listProvidersService);
 
-        const providers =  await listProviders.execute({ expect_user_Id: id });
+        const providers =  await listProviders.execute({ except_user_id: id });
 
         return response.status(200).json(providers);
     }

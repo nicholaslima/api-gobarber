@@ -45,11 +45,12 @@ class AppointmentsRepository implements IAppointmentRepository {
             where:{
                 provider_id, 
                 date: Raw(
-                    dateFieldname => `to_char(${dateFieldname},MM-YYYY) ='${parseMonth}-${year}'`,
+                    dateFieldname => `to_char(${dateFieldname},'MM-YYYY') ='${parseMonth}-${year}'`,
                 ),
             }
         });
 
+        console.log(appointments);
         return appointments;
     }
 
@@ -57,16 +58,19 @@ class AppointmentsRepository implements IAppointmentRepository {
        
         const parsedDay = String(day).padStart(2, '0');
         const parsedMonth = String(month).padStart(2, '0');
+
+        const provider_id = user_id;
        
         const appointments = await this.ormRepository.find({
-            where:{
-                user_id,
-                date: Raw(
-                    dateFieldName =>
-                    `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
-                )
-            }
-        });
+            where: {
+              provider_id,
+              date: Raw(
+                dateFieldName =>
+                  `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parsedDay}-${parsedMonth}-${year}'`,
+              ),
+            },
+            relations: ['user'],
+          });
 
         return appointments;
     }

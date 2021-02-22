@@ -9,7 +9,7 @@ import { getDaysInMonth,getDate  } from 'date-fns';
 type responseType  = Array<{
     day: number;
     available: boolean,
-}>
+}>;
 
 @injectable()
 class ListProviderMonthAvailabilityService{
@@ -41,12 +41,13 @@ class ListProviderMonthAvailabilityService{
                 const dayAppointment = getDate( appointment.date );
                 return dayAppointment === day;
             });
+           
             return { 
                 day, 
                 available: apointmentsDay.length < 10,
             };
         });
-        
+
         return availability;
     }   
 }
