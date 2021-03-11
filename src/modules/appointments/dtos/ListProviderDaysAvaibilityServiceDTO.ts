@@ -2,7 +2,7 @@
 
 
 interface ListProviderDaysAvaibilityServiceDTO{
-    user_id: string;
+    provider_id: string;
     year: number;
     day: number;
     month: number;

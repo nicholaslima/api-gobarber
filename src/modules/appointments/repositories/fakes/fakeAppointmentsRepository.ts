@@ -53,9 +53,9 @@ class FakeAppointmentsRepository implements IAppointmentRepository{
 
 
 
-    public async findByDayFromProvider({user_id,year,month,day}:ListProviderDaysAvaibilityServiceDTO): Promise<Appointment[]>{
+    public async findByDayFromProvider({provider_id,year,month,day}:ListProviderDaysAvaibilityServiceDTO): Promise<Appointment[]>{
         const appointnemts = this.appointments
-        .filter( appointmentUser => appointmentUser.provider_id === user_id)
+        .filter( appointmentUser => appointmentUser.provider_id === provider_id)
         .filter( appointment => {
             const dayAppointment = getDate(appointment.date);
             const monthAppointment = getMonth(appointment.date);

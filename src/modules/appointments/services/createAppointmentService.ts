@@ -6,14 +6,18 @@ import Appointment from '../infra/typeorm/entities/Appointment';
 import AppError from '@shared/errors/AppError';
 import IAppointment from '@modules/appointments/repositories/IAppointmentRepository';
 import { inject, injectable } from 'tsyringe';
-import { getHours,isBefore,startOfHour } from 'date-fns';
+import { getHours,isBefore,startOfHour,format } from 'date-fns';
+import INoticationRepository from '@modules/notifications/repositories/INoticationRepository';
 
 @injectable()
 class CreateAppointmentService{
 
     constructor(
         @inject('AppointmentRepository')
-        private appointmentRepository: IAppointment
+        private appointmentRepository: IAppointment,
+
+        @inject('NotificationRepository')
+        private notificationRepository: INoticationRepository
     ){}
 
 
@@ -44,6 +48,15 @@ class CreateAppointmentService{
             date,
             user_id 
         });
+
+
+        const dateFormated = format(appointmentDate,"dd/MM/yyyy 'ás' HH:mm'h'");
+
+        await this.notificationRepository.create({
+            content: `um appointment foi marcado no dia ${ dateFormated }`,
+            recipient_id: provider_id,
+        });
+
         return appointment;
     }
 

@@ -54,13 +54,12 @@ class AppointmentsRepository implements IAppointmentRepository {
         return appointments;
     }
 
-    public async findByDayFromProvider({ month, day, user_id, year }: ListProviderDaysAvaibilityServiceDTO): Promise<Appointment[]>{
+    public async findByDayFromProvider({ month, day, provider_id, year }: ListProviderDaysAvaibilityServiceDTO): Promise<Appointment[]>{
        
         const parsedDay = String(day).padStart(2, '0');
         const parsedMonth = String(month).padStart(2, '0');
 
-        const provider_id = user_id;
-       
+
         const appointments = await this.ormRepository.find({
             where: {
               provider_id,

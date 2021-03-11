@@ -3,17 +3,24 @@ import 'reflect-metadata';
 
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/fakeAppointmentsRepository';
 import CreateAppointmentService from '@modules/appointments/services/createAppointmentService';
-import Appointment from '../infra/typeorm/entities/Appointment';
+import NotificationRepository from '@modules/notifications/repositories/fakes/fakeNotificationsRepository';
+
 import AppError from '@shared/errors/AppError';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let createAppointmentService: CreateAppointmentService;
+let notificationRepository: NotificationRepository;
 
 describe('create Appointment',() => {
     beforeEach(( ) => {
+        notificationRepository = new NotificationRepository();
         fakeAppointmentsRepository = new FakeAppointmentsRepository();
-        createAppointmentService = new CreateAppointmentService(fakeAppointmentsRepository);
-    })
+        createAppointmentService = new CreateAppointmentService(
+            fakeAppointmentsRepository,
+            notificationRepository
+        );
+    });
+    
     it('should be able to create new appointment',async () => {
 
         jest.spyOn(Date,'now').mockImplementationOnce(() => {
@@ -23,7 +30,7 @@ describe('create Appointment',() => {
        const appointment = await createAppointmentService.execute({
            date: new Date(2021,5,6,11),
            provider_id: 'provider_id',
-           user_id: 'user_d',
+           user_id: 'user_id',
         });
        
        expect(appointment).toHaveProperty('id');

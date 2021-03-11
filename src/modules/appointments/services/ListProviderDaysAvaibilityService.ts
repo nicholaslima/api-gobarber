@@ -19,9 +19,9 @@ class ListProviderDaysAvaibilityService{
     ){}
 
 
-    public async execute({ day,year,month,user_id }: ListProviderDaysAvaibilityServiceDTO): Promise<responseType>{
+    public async execute({ day,year,month,provider_id }: ListProviderDaysAvaibilityServiceDTO): Promise<responseType>{
         
-        const appointments = await this.AppointmentRepository.findByDayFromProvider({ day,year,month,user_id });
+        const appointments = await this.AppointmentRepository.findByDayFromProvider({ day,year,month,provider_id });
         const hourStart = 8;
 
         const hoursAppointment = Array.from({ 
