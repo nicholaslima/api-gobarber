@@ -11,7 +11,7 @@ import multerConfig from '@config/upload';
 
 const users = new UserController();
 
-const upload = multer(multerConfig);
+const upload = multer(multerConfig.multer);
 
 userRoutes.post(
     '/',

@@ -33,8 +33,11 @@ class UploadAvatarService{
            await this.StorageProvider.deleteFile(user.avatar);
         }
 
-        user.avatar = filename;
-        await this.StorageProvider.saveFile(filename);
+
+        const fileName = await this.StorageProvider.saveFile(filename);
+
+        user.avatar = fileName;
+        
         await this.ormRepository.update(user);
         return user;
     }

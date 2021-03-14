@@ -1,5 +1,6 @@
 
 import { Response,Request } from 'express';
+import { classToClass } from 'class-transformer';
 import createUserService from '@modules/users/services/createUserService';
 import UploadAvatarService from '@modules/users/services/uploadAvatarService';
 import { container } from 'tsyringe';
@@ -14,15 +15,8 @@ class userController{
 
         const user = await createUser.execute({ name,email,password });
 
-        const userWithoutPassword = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            created_at: user.created_at,
-            update_at: user.update_at,
-       };
 
-        return response.json(userWithoutPassword);
+        return response.json(classToClass(user));
     }
 
     public async UploadAvatar(request: Request,response: Response){
@@ -30,22 +24,13 @@ class userController{
         const { id  } = request.user;
 
         const updateAvatar = container.resolve(UploadAvatarService);
-
+       
         const user = await updateAvatar.execute({ 
            filename,
            userID: id 
         });
 
-        const userWithoutPassword = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            avatar: user.avatar,
-            created_at: user.created_at,
-            update_at: user.update_at,
-       };
-
-        return response.json(userWithoutPassword);
+        return response.json(classToClass(user));
     }
 
 }
