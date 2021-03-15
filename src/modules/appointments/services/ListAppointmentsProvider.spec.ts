@@ -2,15 +2,20 @@
 
 import FakeAppointmentsRepository from '@modules/appointments/repositories/fakes/fakeAppointmentsRepository';
 import ListAppointmentsProvider from './listAppointmentsProviderService';
-
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/fakeCacheProvider';
 
 let listAppointmentsProvider: ListAppointmentsProvider;
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
+let fakeCacheProvider:FakeCacheProvider;
 
 describe('appointments from provider',() => {
     beforeEach(() => {
         fakeAppointmentsRepository = new FakeAppointmentsRepository();
-        listAppointmentsProvider = new ListAppointmentsProvider(fakeAppointmentsRepository);
+        fakeCacheProvider = new FakeCacheProvider();
+        listAppointmentsProvider = new ListAppointmentsProvider(
+            fakeAppointmentsRepository,
+            fakeCacheProvider
+        );
     });
 
     it('should be able to list appoontments from provider by day',async () => {
@@ -32,7 +37,7 @@ describe('appointments from provider',() => {
             month: 2,
             year: 2020,
         });
-
+        
         expect(appointments).toEqual([
             appointment1,
             appointment2

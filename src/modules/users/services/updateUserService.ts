@@ -41,7 +41,7 @@ class UpdateUserService {
               'You need to inform old password to set a new password.',
             );
         };
-        console.log('user',user);
+
 
         if(password && old_password){
            const passwordCorrect =  await this.HashProvider.compareHash(

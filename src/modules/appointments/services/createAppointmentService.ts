@@ -66,8 +66,6 @@ class CreateAppointmentService{
             "yyyy-M-d") 
         }`);
 
-        console.log('cache apagado');
-
         return appointment;
     }
 

@@ -6,16 +6,19 @@ import express,{Request,Response,NextFunction} from 'express';
 import '@shared/infra/typeorm/index';
 import routes from '@shared/infra/http/routes';
 import uploadAvatarConfig from '@config/upload';
+import rateLimiter from '@shared/infra/http/middlewares/rateLimiter';
 import AppError from '@shared/errors/AppError';
 
 import "@shared/container";
 
 const App = express();
 
+App.use(rateLimiter);
 App.use(express.json());
 //rota para mostrar imagens do sistema
 App.use('/file',express.static(uploadAvatarConfig.tmpFolder));
 App.use(routes);
+
 App.use(errors());
 
 App.use((error: Error,request: Request,response: Response,next: NextFunction) => {

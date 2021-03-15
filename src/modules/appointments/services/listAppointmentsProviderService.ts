@@ -35,10 +35,11 @@ class listAppointmentsProviderService{
                 month,
                 year 
             });
-            console.log('banco');
 
             await this.CacheProvider.save(cacheKey,appointments);
         }
+
+        
 
         return appointments;
     }
