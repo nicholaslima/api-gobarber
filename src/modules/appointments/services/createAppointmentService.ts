@@ -4,6 +4,7 @@
 import createAppointmentServiceDTO from '../dtos/createAppointmentServiceDTO';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import AppError from '@shared/errors/AppError';
+import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import IAppointment from '@modules/appointments/repositories/IAppointmentRepository';
 import { inject, injectable } from 'tsyringe';
 import { getHours,isBefore,startOfHour,format } from 'date-fns';
@@ -17,12 +18,15 @@ class CreateAppointmentService{
         private appointmentRepository: IAppointment,
 
         @inject('NotificationRepository')
-        private notificationRepository: INoticationRepository
+        private notificationRepository: INoticationRepository,
+
+        @inject('CacheProvider')
+        private CacheProvider: ICacheProvider,
     ){}
 
 
     public async execute({ date, provider_id,user_id }:createAppointmentServiceDTO): Promise<Appointment>{
-        const appointmentExist = await this.appointmentRepository.findByDate(date);
+        const appointmentExist = await this.appointmentRepository.findByDate(date,provider_id);
         const appointmentDate = startOfHour(date);
     
         if(appointmentExist){
@@ -56,6 +60,13 @@ class CreateAppointmentService{
             content: `um appointment foi marcado no dia ${ dateFormated }`,
             recipient_id: provider_id,
         });
+
+        await this.CacheProvider.invalidate(`list_appointments_provider-${ provider_id }:${ format(
+            appointmentDate,
+            "yyyy-M-d") 
+        }`);
+
+        console.log('cache apagado');
 
         return appointment;
     }

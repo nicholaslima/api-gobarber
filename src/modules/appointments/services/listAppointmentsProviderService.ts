@@ -24,15 +24,21 @@ class listAppointmentsProviderService{
 
     public async execute({ provider_id,day,month,year }:Irequest):Promise<Appointment[]>{
 
-        const appointments = await this.AppointmentRepository.findByDayFromProvider({ 
-            provider_id,
-            day,
-            month,
-            year 
-        });
+        const cacheKey = `list_appointments_provider-${ provider_id }:${ year }-${ month }-${ day }`;
 
+        let appointments = await this.CacheProvider.recover<Appointment[]>(cacheKey);
 
-        await this.CacheProvider.save(`list_appointments_provider-${ provider_id }-${ year }-${ month }-${ day }`,appointments);
+        if(!appointments){
+            appointments = await this.AppointmentRepository.findByDayFromProvider({ 
+                provider_id,
+                day,
+                month,
+                year 
+            });
+            console.log('banco');
+
+            await this.CacheProvider.save(cacheKey,appointments);
+        }
 
         return appointments;
     }
