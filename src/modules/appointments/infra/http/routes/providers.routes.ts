@@ -2,7 +2,7 @@
 
 import express from 'express';
 import { Joi,Segments,celebrate } from 'celebrate';
-import AppointmentControler from '../controllers/AppointmentControler';
+import ProvidersControler from '@modules/appointments/infra/http/controllers/ProvidersController';
 import MiddlewareAuth from '@shared/infra/http/middlewares/MiddlewareToken';
 import ProvidersMonthAvailabilityController from '@modules/appointments/infra/http/controllers/ProvidersMonthAvailabilityController';
 import ProvidersDayAvaibilityController from '@modules/appointments/infra/http/controllers/ProvidersDayAvaibilityController';
@@ -11,6 +11,7 @@ const providersRoutes = express.Router();
 
 const daysAvaibility = new ProvidersDayAvaibilityController();
 const monthAvailability = new ProvidersMonthAvailabilityController();
+const providersController = new ProvidersControler();
 
 providersRoutes.use(MiddlewareAuth);
 
@@ -30,6 +31,12 @@ providersRoutes.get(
             }
         }),
     daysAvaibility.index);
+
+
+providersRoutes.get(
+    '/list',
+    providersController.listProviders
+);
 
 
 export default providersRoutes

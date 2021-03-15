@@ -3,12 +3,14 @@
 import express from 'express';
 import { celebrate,Segments,Joi } from 'celebrate';
 
-import appointmentController from '../controllers/AppointmentControler';
+import AppointmentController from '../controllers/AppointmentControler';
 import MiddlewareToken from '@shared/infra/http/middlewares/MiddlewareToken';
 import AppointmentProviderController from '@modules/appointments/infra/http/controllers/AppointmentProviderController';
 
 const AppointmentsRoutes = express.Router();
-const Controller = new appointmentController();
+
+
+const appointmentController = new AppointmentController();
 const appointmentProvider = new AppointmentProviderController();
 
 AppointmentsRoutes.use(MiddlewareToken);
@@ -20,9 +22,10 @@ AppointmentsRoutes.post(
             date: Joi.date(),
         }
     }),
-    Controller.create
+    appointmentController.create
 );
-AppointmentsRoutes.get('/',Controller.findAll);
+AppointmentsRoutes.get('/',appointmentController.findAll);
 AppointmentsRoutes.get('/me',appointmentProvider.index);
+
 
 export default AppointmentsRoutes;

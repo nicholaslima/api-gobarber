@@ -34,13 +34,5 @@ export default class AppointmentControler{
         return response.json(appointments);
     }
 
-    public async listProviders(request:Request,response:Response){
-        const { id } = request.user;    
-
-        const listProviders = container.resolve(listProvidersService);
-
-        const providers =  await listProviders.execute({ except_user_id: id });
-
-        return response.status(200).json(providers);
-    }
+    
 }       
