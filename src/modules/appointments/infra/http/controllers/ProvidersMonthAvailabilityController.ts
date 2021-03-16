@@ -7,14 +7,14 @@ class ProvidersMonthAvailabilityController{
 
     public async index(request: Request,response: Response){
         const { provider_id } = request.params;
-        const { month,year } =  request.body;
+        const { month,year } =  request.query;
 
         const listAvaibility =  container.resolve(ListProviderMonthAvailabilityService);
        
         const avaibilities = await listAvaibility.execute({ 
-            month,
             provider_id,
-            year,
+            year: Number(year),
+            month: Number(month)
         });
 
     

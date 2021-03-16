@@ -9,15 +9,15 @@ class ProvidersDayAvaibilityController{
 
     public async index(request: Request,response: Response){
         const { provider_id } = request.params;
-        const { month,year,day } =  request.body;
+        const { month,year,day } =  request.query;
         
         const listAvaibility =  container.resolve(ListProviderDaysAvaibilityService);
        
         const avaibilities = await listAvaibility.execute({ 
-            day,
-            month,
             provider_id,
-            year
+            day: Number(day),
+            year: Number(year),
+            month: Number(month)
         });
     
 

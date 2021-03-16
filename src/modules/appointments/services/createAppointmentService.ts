@@ -65,7 +65,7 @@ class CreateAppointmentService{
             appointmentDate,
             "yyyy-M-d") 
         }`);
-
+   
         return appointment;
     }
 
