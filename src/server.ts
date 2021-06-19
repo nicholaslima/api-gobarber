@@ -1,8 +1,9 @@
 import 'dotenv/config';
 import 'reflect-metadata';
 import 'express-async-errors';
+import cors from 'cors';
 import { errors } from 'celebrate';
-import express,{Request,Response,NextFunction} from 'express';
+import express,{ Request,Response,NextFunction } from 'express';
 import '@shared/infra/typeorm/index';
 import routes from '@shared/infra/http/routes';
 import uploadAvatarConfig from '@config/upload';
@@ -13,10 +14,12 @@ import "@shared/container";
 
 const App = express();
 
-App.use(rateLimiter);
+
 App.use(express.json());
+App.use(cors());
 //rota para mostrar imagens do sistema
 App.use('/file',express.static(uploadAvatarConfig.tmpFolder));
+App.use(rateLimiter);
 App.use(routes);
 
 App.use(errors());

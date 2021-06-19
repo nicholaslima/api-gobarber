@@ -39,6 +39,7 @@ class UploadAvatarService{
         user.avatar = fileName;
         
         await this.ormRepository.update(user);
+
         return user;
     }
 }

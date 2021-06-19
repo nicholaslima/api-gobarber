@@ -17,7 +17,6 @@ class ProvidersMonthAvailabilityController{
             month: Number(month)
         });
 
-    
         return response.status(200).json(avaibilities);
     }
 

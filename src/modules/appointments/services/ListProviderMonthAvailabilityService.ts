@@ -4,7 +4,7 @@ import typeListProviderMonth from '@modules/appointments/dtos/ListProviderMonthA
 
 
 import { injectable,inject } from 'tsyringe';
-import { getDaysInMonth,getDate  } from 'date-fns';
+import { getDaysInMonth,getDate,isAfter  } from 'date-fns';
 
 type responseType  = Array<{
     day: number;
@@ -41,10 +41,12 @@ class ListProviderMonthAvailabilityService{
                 const dayAppointment = getDate( appointment.date );
                 return dayAppointment === day;
             });
-           
+
+            const compareDate = new Date(year,month - 1,day,23,59,59);
+
             return { 
                 day, 
-                available: apointmentsDay.length < 10,
+                available: isAfter(compareDate,new Date()) && apointmentsDay.length < 10,
             };
         });
 

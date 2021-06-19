@@ -37,7 +37,7 @@ class SendResetEmailService{
 
         const pathTemplate = path.resolve(__dirname,'..','views','templateMail.hbs');
         
-
+        
         await this.sendEmailResetProvider.sendEmail({
             to: {
                 name: userFound.name,
@@ -47,7 +47,7 @@ class SendResetEmailService{
             templateData:{
                 variables:{
                     name: userFound.name,
-                    link:`${ process.env.APP_WEB_URL }/reset_password?token=${ token }`,
+                    link:`${ process.env.APP_WEB_URL }/reset-password?token=${ token }`,
                 },
                 file: pathTemplate,
             },

@@ -6,6 +6,7 @@ import User from '@modules/users/infra/typeorm/entities/User';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 import { injectable,inject } from 'tsyringe';
+import { classToClass } from 'class-transformer';
 
 
 @injectable()
@@ -19,9 +20,10 @@ class ListProvidersService{
     ){}
 
     public async execute({ except_user_id  } :IfindAllProvidersDTO): Promise<User[]> {
-        let users = await this.CacheProvider.recover<User[]>(
+       let users = await this.CacheProvider.recover<User[]>(
             `providers-list:${ except_user_id }`
         );
+
 
         if(!users){
             users = await this.UsersRepository.findAllProviders({
@@ -29,7 +31,7 @@ class ListProvidersService{
             });
             
             await this.CacheProvider.save(
-                `providers-list:${ except_user_id }`,users
+                `providers-list:${ except_user_id }`,classToClass(users)
             );
         }
         
